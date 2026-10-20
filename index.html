@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal & Redirector</title>
+    <!-- Tailwind CSS via CDN for fast, modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-md w-full bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
+        <div class="flex items-center space-x-3 mb-4">
+            <div class="w-3 h-3 bg-cyan-500 rounded-full animate-pulse"></div>
+            <h1 class="text-xl font-bold tracking-tight">Dynamic Portal</h1>
+        </div>
+        
+        <p class="text-slate-400 text-sm mb-6">
+            This entry point inspects your URL parameters and routes you to the specified destination file instantly.
+        </p>
+        
+        <!-- Status Box -->
+        <div id="status" class="bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm mb-6 text-slate-300 font-mono">
+            Scanning URL parameters...
+        </div>
+
+        <!-- Documentation Hint -->
+        <div class="space-y-2">
+            <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">How to use:</p>
+            <div class="bg-slate-950 p-3 rounded-lg text-xs text-cyan-400 border border-slate-800 font-mono break-all">
+                yoursite.github.io/index.html?to=about.html
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Parse URL parameters
+        const params = new URLSearchParams(window.location.search);
+        const target = params.get('to') || params.get('file');
+        const statusEl = document.getElementById('status');
+
+        if (target) {
+            statusEl.innerHTML = `Target detected: <span class="text-cyan-400">${target}</span><br>Redirecting...`;
+            setTimeout(() => {
+                window.location.replace(target);
+            }, 50);
+        } else {
+            statusEl.innerHTML = `No redirection parameter found.<br><span class="text-slate-500 text-xs">Append ?to=your-page.html to test.</span>`;
+        }
+    </script>
+</body>
+</html>
